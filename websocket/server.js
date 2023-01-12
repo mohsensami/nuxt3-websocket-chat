@@ -13,7 +13,16 @@ wsServer.on('connection', function (socket) {
         console.log("Received message from client: "  + msg);
 
         wsServer.clients.forEach(function (client) {
-            client.send("Someone said: " + msg);
+            if (msg === 'restart') {
+                client.send("Restarting");
+                return;
+            } 
+            else if (msg === 'profanity') {
+                return;
+            }
+            else {
+                client.send("Someone said: " + msg);
+            }
         });
 
     });
