@@ -1,5 +1,8 @@
 <template>
   <div>
+    <h1 class="text-3xl font-bold underline">
+    Hello world!
+  </h1>
     <h1>Real Time Messaging</h1>
     <div>
       <div v-for="(msg, index) in messages" :key="index">
