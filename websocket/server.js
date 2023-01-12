@@ -14,7 +14,7 @@ wsServer.on('connection', function (socket) {
 
         wsServer.clients.forEach(function (client) {
             if (msg === 'restart') {
-                client.send("Restarting");
+                client.send("Restarting Server ...............");
                 return;
             } 
             else if (msg === 'profanity') {
