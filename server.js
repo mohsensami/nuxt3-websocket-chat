@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-
 const PORT = 5321;
 
 const wsServer = new WebSocket.Server({
@@ -8,10 +7,8 @@ const wsServer = new WebSocket.Server({
 
 wsServer.on('connection', function (socket) {
     console.log("A client just connected");
-
     socket.on('message', function (msg) {
         console.log("Received message from client: "  + msg);
-
         wsServer.clients.forEach(function (client) {
             if (msg == 'restart') {
                 client.send("Restarting Server ...............");
@@ -21,16 +18,14 @@ wsServer.on('connection', function (socket) {
                 return;
             }
             else {
-                client.send("Someone said: " + msg);
+                client.send(" " + msg);
             }
         });
 
     });
-
     socket.on('close', function () {
         console.log('Client disconnected');
     })
 
 });
-
 console.log( (new Date()) + " Server is listening on port " + PORT);

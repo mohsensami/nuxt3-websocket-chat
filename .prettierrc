@@ -1,0 +1,9 @@
+{
+  "tabWidth": 2,
+  "singleQuate": true,
+  "endOfLine": "lf",
+  "semi": true,
+  "html.format.wrapAttributes": "auto",
+  "html.format.wrapLineLength": 0,
+  "printWidth": 1000
+}
