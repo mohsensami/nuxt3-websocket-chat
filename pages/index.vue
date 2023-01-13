@@ -6,36 +6,50 @@
         <p>{{ msg }}</p>
       </div>
     </div>
-    <form @submit.prevent="sendMsg(userMsg)">
+    <form @submit.prevent="sendMsg(value)">
       <div class="flex mt-4">
-        <input v-model="userMsg" class="w-full py-2 px-4 border-gray-200 border focus:outline-none" type="text" name="content" id="content" placeholder="type somthing ...." />
+        <input v-model="value" class="w-full py-2 px-4 border-gray-200 border focus:outline-none" type="text" name="content" id="content" placeholder="type somthing ...." />
         <input class="bg-gray-700 text-white cursor-pointer py-1 px-8" type="submit" value="Send Message" />
       </div>
+      <span class="text-red-500 text-sm">{{ errorMessage }}</span>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
+import { useField } from 'vee-validate';
+
+function validateField(value:messageType) {
+  if (!value) {
+    return 'this field is required';
+  }
+  if (value.includes('profanity')) {
+    return 'Its not a Politely word';
+  }
+  return true;
+}
+
+const { value, errorMessage } = useField('fullName', validateField);
 
 type messageType = string|number;
 
 const connection = ref<any>('');
-const userMsg = ref<messageType>('');
+// const userMsg = ref<messageType>('');
 const messages = reactive<messageType[]>(['Welcome to everybody, please send nice messages.']);
 
 const sendMsg = (message:any)=> {
-  if (userMsg.value == "" || userMsg.value=='profanity') {
-    userMsg.value = '';
+  if (value.value == "" || value.value.includes('profanity')) {
+    value.value = '';
     return;
   }
   connection.value.send(message.toLowerCase());
-  userMsg.value = '';
+  value.value = '';
 }
 onMounted(()=>{
   if (process.client) {
     console.log("Starting connection to WebSocket Server")
-    connection.value = new WebSocket("ws://127.0.0.1:5555")
+    connection.value = new WebSocket("ws://127.0.0.1:5321")
     connection.value.onmessage = function(event:any) {
       messages.push(event.data);
       console.log(event.data);

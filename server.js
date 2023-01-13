@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
 
-const PORT = 5555;
+const PORT = 5321;
 
 const wsServer = new WebSocket.Server({
     port: PORT
@@ -13,7 +13,7 @@ wsServer.on('connection', function (socket) {
         console.log("Received message from client: "  + msg);
 
         wsServer.clients.forEach(function (client) {
-            if (msg === 'restart') {
+            if (msg == 'restart') {
                 client.send("Restarting Server ...............");
                 return;
             } 
